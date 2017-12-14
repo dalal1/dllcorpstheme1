@@ -25,7 +25,7 @@ function dllcorpstheme1_scripts_styles_method() {
    /**
 	* Loads our main stylesheet.
 	*/
-	wp_enqueue_style( 'dllcorpstheme1_style', get_stylesheet_uri() );
+	wp_enqueue_style( 'dllcorpstheme1_style', get_stylesheet_uri(), array(), rand(111,9999), 'all'  );
 
 	/**
 	 * Adds JavaScript to pages with the comment form to support

@@ -3631,3 +3631,25 @@ Classic Layout
 .dllcorpstheme1-footer--classic .footer-socket-wrapper {
 	background-color: #252730;
 }
+
+.dllcorps-img-container {
+	width: 33.3%;
+	float: left;
+    display: block;
+    position: relative;
+    margin-right: 10px;
+}
+
+.dllcorps-responsivewrapper {
+    position: relative;
+    padding-bottom: 52%;
+    height: 0;
+    background-size: cover;
+    background-position: center;
+	
+}
+
+.dllcorps-entry-title {
+    padding-top: 0px !important;
+   	    font-size: 18px !important;
+}

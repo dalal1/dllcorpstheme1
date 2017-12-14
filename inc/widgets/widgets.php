@@ -426,6 +426,7 @@ class dllcorpstheme1_featured_posts_slider_widget extends WP_Widget {
 				?>
 				<div class="single-article">
 					<?php
+					$dll_meta_url = get_post_meta($post->ID,'dllcorps_user_submit_url', true);
 					if ( has_post_thumbnail() ) {
 						$image = '';
 						$thumbnail_id = get_post_thumbnail_id( $post -> ID );
@@ -439,7 +440,18 @@ class dllcorpstheme1_featured_posts_slider_widget extends WP_Widget {
 						$image .= get_the_post_thumbnail( $post -> ID, $featured, array( 'title' => esc_attr( $title_attribute ), 'alt' => esc_attr( $image_alt_text ) ) ) . '</a>';
 						$image .= '</figure>';
 						echo $image;
-					} else {
+					} elseif (getimagesize($dll_meta_url) !== false){// getimagesize() to ensure that the URL points to a valid image
+						$dll_the_title = the_title( '', '', false );
+						$dll_permalink = get_permalink();
+						?>
+						<figure class="highlights-featured-image">
+							<a href="<?php  echo $dll_permalink; ?>" >
+								<img width="392" height="272" src="<?php echo $dll_meta_url; ?>" class="attachment-colormag-highlighted-post
+								 size-colormag-highlighted-post wp-post-image" alt="<?php  echo $dll_the_title; ?>" title="<?php  echo $dll_the_title; ?>"
+								 ></a>
+						</figure>
+					<?php }
+					else {
 						?>
 						<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
 							<img src="<?php echo get_template_directory_uri(); ?>/img/highlights-featured-image.png">
@@ -764,8 +776,8 @@ class dllcorpstheme1_featured_posts_vertical_widget extends WP_Widget {
 			echo '<h3 class="widget-title" ' . $border_color . '><span ' . $title_color . '>' . esc_html( $title ) . '</span></h3>';
 		}
 		if ( ! empty( $text ) ) {
-			?> <p> <?php echo esc_textarea( $text ); ?> </p> <?php } ?>
-			<?php
+			?> <?php } ?>
+		<?php
 			$i = 1;
 			while ( $get_featured_posts -> have_posts() ):$get_featured_posts -> the_post();
 				?>
@@ -774,31 +786,32 @@ class dllcorpstheme1_featured_posts_vertical_widget extends WP_Widget {
 				} else {
 					$featured = 'dllcorpstheme1-featured-post-small';
 				} ?>
-				<?php if ( $i == 1 ) {
+				<?php 
 					echo '<div class="first-post">';
-				} elseif ( $i == 2 ) {
-					echo '<div class="following-post">';
-				} ?>
+				?>
 			<div class="single-article clearfix">
 			<?php
-			if ( has_post_thumbnail() ) {
-				$image = '';
-				$thumbnail_id = get_post_thumbnail_id( $post -> ID );
-				$image_alt_text = get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true );
-				$title_attribute = get_the_title( $post -> ID );
-				if ( empty( $image_alt_text ) ) {
-					$image_alt_text = $title_attribute;
-				}
-				$image .= '<figure>';
-				$image .= '<a href="' . get_permalink() . '" title="' . the_title( '', '', false ) . '">';
-				$image .= get_the_post_thumbnail( $post -> ID, $featured, array( 'title' => esc_attr( $title_attribute ), 'alt' => esc_attr( $image_alt_text ) ) ) . '</a>';
-				$image .= '</figure>';
-				echo $image;
-			}
+			$dll_meta_url = get_post_meta($post->ID,'dllcorps_user_submit_url', true);
+			// php is short-cicuit if first condition is false the second won't be evaluated (&&)
+			if (! empty( $dll_meta_url ) && getimagesize( $dll_meta_url) !== false ){// getimagesize() to ensure that the URL points to a valid image
+						$dll_the_title = the_title( '', '', false );
+						$dll_permalink = get_permalink();
+						?>
+						<figure>
+							<a class="dllcorps-img-container" href="<?php  echo $dll_permalink; ?>" >
+								<div class="dllcorps-responsivewrapper" style="background: url(<?php echo $dll_meta_url; ?>) center; background-size: cover;"></div>
+								<!--img width="130" height="90" src="<?php echo $dll_meta_url; ?>" class="attachment-colormag-featured-post-small size-colormag-featured-post-small wp-post-image dllcorps-responsivewrapper" alt="<?php  echo $dll_the_title; ?>" title="<?php  echo $dll_the_title; ?>"
+								 ></a-->
+								 <!--a href="<?php  echo $dll_permalink; ?>" >
+								<img src="<?php echo $dll_meta_url; ?>" class="dllcorps-responsivewrapper" alt="<?php  echo $dll_the_title; ?>" title="<?php  echo $dll_the_title; ?>"
+								 ></a-->
+							</a>
+						</figure>
+					<?php }
 			?>
 				<div class="article-content">
-			<?php dllcorpstheme1_colored_category(); ?>
-					<h3 class="entry-title">
+					<?php #dllcorpstheme1_colored_category(); ?>
+					<h3 class="entry-title dllcorps-entry-title">
 						<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 					</h3>
 					<div class="below-entry-meta">
@@ -812,23 +825,17 @@ class dllcorpstheme1_featured_posts_vertical_widget extends WP_Widget {
 						<span class="byline"><span class="author vcard"><i class="fa fa-user"></i><a class="url fn n" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" title="<?php echo get_the_author(); ?>"><?php echo esc_html( get_the_author() ); ?></a></span></span>
 						<span class="comments"><i class="fa fa-comment"></i><?php comments_popup_link( '0', '1', '%' ); ?></span>
 					</div>
-			<?php if ( $i == 1 ) { ?>
-						<div class="entry-content">
-				<?php the_excerpt(); ?>
-						</div>
-			<?php } ?>
+	
 				</div>
 
 			</div>
-			<?php if ( $i == 1 ) {
-				echo '</div>';
-			} ?>
+
+			</div>
+			
 			<?php
 			$i ++;
 		endwhile;
-		if ( $i > 2 ) {
-			echo '</div>';
-		}
+		
 		// Reset Post Data
 		wp_reset_query();
 		?>

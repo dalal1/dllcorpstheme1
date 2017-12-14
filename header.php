@@ -42,22 +42,22 @@
 
 			<header id="masthead" class="site-header clearfix <?php echo esc_attr( $class_name ); ?>">
 				<div id="header-text-nav-container" class="clearfix">
-
+<!
 					<?php dllcorpstheme1_top_header_bar_display(); // Display the top header bar ?>
 
-					<?php
+					<?php/*
 					if ( get_theme_mod( 'dllcorpstheme1_header_image_position', 'position_two' ) == 'position_one' ) {
 						dllcorpstheme1_render_header_image();
 					}
-					?>
+					*/?>
 
-					<?php dllcorpstheme1_middle_header_bar_display(); // Display the middle header bar ?>
+					<?php //dllcorpstheme1_middle_header_bar_display(); // Display the middle header bar ?>
 
-					<?php
+					<?php/*
 					if ( get_theme_mod( 'dllcorpstheme1_header_image_position', 'position_two' ) == 'position_two' ) {
 						dllcorpstheme1_render_header_image();
 					}
-					?>
+					*/?>
 
 					<?php dllcorpstheme1_below_header_bar_display(); // Display the below header bar  ?>
 

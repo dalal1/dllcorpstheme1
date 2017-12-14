@@ -60,7 +60,7 @@ get_header(); ?>
          }
          if (get_theme_mod('dllcorpstheme1_hide_blog_front', 0) == 0): ?>
 
-            <div class="article-container">
+            <!--div class="article-container">
                <?php if ( have_posts() ) : ?>
 
                   <?php while ( have_posts() ) : the_post(); ?>
@@ -82,7 +82,7 @@ get_header(); ?>
                   <?php get_template_part( 'no-results', 'none' ); ?>
 
                <?php endif; ?>
-            </div>
+            </div-->
          <?php endif; ?>
          </div>
       </div>
